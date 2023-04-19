@@ -8,13 +8,13 @@ import sys
 #     exit(1)
 
 # name = sys.argv[1]
-# name1 = "6clauses7variables"
+name1 = "6clauses7variables"
 # name1 = "largecnf"
 # name2 = "largecnf"
-# name2 = "6clauses7variables_slightchange"
+name2 = "6clauses7variables_slightchange"
 
-name1 = "clausematchtest1"
-name2 = "clausematchtest2"
+# name1 = "clausematchtest1"
+# name2 = "clausematchtest2"
 
 
 
@@ -34,22 +34,34 @@ print(expression2)
 # first identify overlap & obtain the parts of the expressions that do *not* overlap
 # overlap = size of biggest expression / amount of literals in common clauses
 def remove_overlap(expression1, expression2):
+    print("********************")
+    print("Step 1, remove full overlapping clauses...")
+
     remainder1, remainder2 = expression1 ^ expression2
+    print(remainder1)
+    print(remainder2)
+    print()
 
-    size_of_biggest_expression = max(expression1.amount_of_literals, 
-                                     expression2.amount_of_literals)
 
-    # print(size_of_biggest_expression, remainder1.amount_of_literals)
-    overlap = (size_of_biggest_expression - remainder1.amount_of_literals) / size_of_biggest_expression
+    # size_of_biggest_expression = max(expression1.amount_of_literals, 
+    #                                  expression2.amount_of_literals)
 
-    remainder1.partial_overlap(remainder2)
+    # overlap = (size_of_biggest_expression - remainder1.amount_of_literals) / size_of_biggest_expression
+    overlap = 0
+
+    print("Step 2, remove non-overlapping clauses...")
+    remainder1 = remainder1.partial_overlap(remainder2)
+    remainder2 = remainder2.partial_overlap(remainder1)
+    print(remainder1)
+    print(remainder2)
+
 
     return remainder1, remainder2, overlap
 
 remainder1, remainder2, score = remove_overlap(expression1, expression2)
 
-print("Remainders")
-print(remainder1)
-print(remainder2)
+# print("Remainders")
+# print(remainder1)
+# print(remainder2)
 
-print(score)
+# print(score)

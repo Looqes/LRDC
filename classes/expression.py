@@ -7,7 +7,7 @@ import numpy as np
 # Built as a collection of clause objects
 # Supports symmetric difference between expressions
 class Expression():
-    # Constructor supports input of set of clauses to build expression.
+    # Constructor supports input of set (list) of clauses to build expression.
     # Empty if none are given, to read from file call read function afterwards.
     def __init__(self, clauses=[]):
         # klaus
@@ -60,14 +60,23 @@ class Expression():
         return Expression(left_outer), Expression(right_outer)
     
 
+    def __contains__(self, clause):
+        for own_clause in self.clauses:
+            if own_clause == clause:
+                return True
+        return False
+
     # Function to extract clauses from an expression that share partial overlap
-    # of literals with atleast one claus from the other expression, and vice versa
+    # of literals with atleast one clause from the other expression
     def partial_overlap(self, other):
-        result1 = set()
-        result2 = set()
+        result = list()
 
         for clause in self.clauses:
+            print("Check ", clause, "...")
             for other_clause in other.clauses:
-                print(clause)
-                print(other_clause)
-                test = clause & other_clause                
+                if clause.has_partial_overlap(other_clause):
+                    print(clause, " has partial overlap with ", other_clause)
+                    result.append(clause)
+                    break
+
+        return Expression(result)       
