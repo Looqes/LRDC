@@ -1,5 +1,6 @@
 from classes.clause import Clause
 from classes.expression import Expression
+from classes.clause_difference import ClauseDifference
 import sys
 
 
@@ -58,7 +59,31 @@ def remove_overlap(expression1, expression2):
 
     return remainder1, remainder2, overlap
 
+
+def partial_overlap_compare(expression1, expression2):
+    possible_differences = []
+
+    for clause in expression1.clauses:
+        for i, other_clause in enumerate(expression2.clauses):
+            if clause.has_partial_overlap(other_clause):
+                # TODO: Create clause difference summary
+                diff = ClauseDifference(clause, other_clause)
+                possible_differences.append(diff)
+    
+    print("different expressions found: ")
+    {print(expr) for expr in possible_differences}
+
+    
+
+
+
 remainder1, remainder2, score = remove_overlap(expression1, expression2)
+
+print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+partial_overlap_compare(remainder1, remainder2)
+
+
+
 
 # print("Remainders")
 # print(remainder1)

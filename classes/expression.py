@@ -72,10 +72,10 @@ class Expression():
         result = list()
 
         for clause in self.clauses:
-            print("Check ", clause, "...")
+            # print("Check ", clause, "...")
             for other_clause in other.clauses:
                 if clause.has_partial_overlap(other_clause):
-                    print(clause, " has partial overlap with ", other_clause)
+                    # print(clause, " has partial overlap with ", other_clause)
                     result.append(clause)
                     break
 
