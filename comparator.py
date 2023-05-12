@@ -22,14 +22,8 @@ name2 = "6clauses7variables_slightchange"
 expression1 = Expression().read_from_file(name1)
 expression2 = Expression().read_from_file(name2)
 
-# old_unique, new_unique = expression1 ^ expression2
-
 print(expression1)
 print(expression2)
-# print("\nClauses that are no longer in the second set: \n", old_unique)
-# print("\nNew clauses in the second set: \n", new_unique)
-
-# print(expression)
 
 
 # first identify overlap & obtain the parts of the expressions that do *not* overlap
@@ -43,10 +37,7 @@ def remove_overlap(expression1, expression2):
     print(remainder2)
     print()
 
-
-    # size_of_biggest_expression = max(expression1.amount_of_literals, 
-    #                                  expression2.amount_of_literals)
-
+    # TODO
     # overlap = (size_of_biggest_expression - remainder1.amount_of_literals) / size_of_biggest_expression
     overlap = 0
 
@@ -56,37 +47,26 @@ def remove_overlap(expression1, expression2):
     print(remainder1)
     print(remainder2)
 
-
     return remainder1, remainder2, overlap
 
 
+# Function that compares partially overlapping clauses and creates
+# clause_difference objects containing information about the difference
+# between pairs of partially overlapping clauses.
 def partial_overlap_compare(expression1, expression2):
     possible_differences = []
 
     for clause in expression1.clauses:
         for i, other_clause in enumerate(expression2.clauses):
             if clause.has_partial_overlap(other_clause):
-                # TODO: Create clause difference summary
                 diff = ClauseDifference(clause, other_clause)
                 possible_differences.append(diff)
     
-    print("different expressions found: ")
+    print("\nClause expressions: ")
     {print(expr) for expr in possible_differences}
 
     
-
-
-
 remainder1, remainder2, score = remove_overlap(expression1, expression2)
-
-print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+print("\nStep 3, create clause differences between partially overlapping clauses...")
 partial_overlap_compare(remainder1, remainder2)
 
-
-
-
-# print("Remainders")
-# print(remainder1)
-# print(remainder2)
-
-# print(score)
