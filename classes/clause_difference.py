@@ -13,7 +13,6 @@ class ClauseDifference():
         print(clause, target, "...")
         (self.overlap,
         self.negations,
-        self.mutations,
         self.deletions,
         self.additions) = clause.difference(target)
 
@@ -21,8 +20,7 @@ class ClauseDifference():
         self.score = \
             len(self.overlap) \
             - 0.5 * len(self.negations) \
-            - 3 * len(self.mutations) \
-            - 5 * (len(self.deletions) + len(self.additions))
+            - 3 * (len(self.deletions) + len(self.additions))
 
     
     def __repr__(self):
@@ -30,7 +28,6 @@ class ClauseDifference():
             " & " + str(self.target) + ":\n" \
             + "    Overlap:   " + str(self.overlap)   + "\n" \
             + "    Negations: " + str(self.negations) + "\n" \
-            + "    Mutations: " + str(self.mutations) + "\n" \
             + "    Deletions: " + str(self.deletions) + "\n" \
             + "    Additions: " + str(self.additions) + "\n" \
             + "------------------- WEIGHT : " + str(self.score) + "\n"

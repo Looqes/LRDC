@@ -97,21 +97,24 @@ class Clause():
         remainder1 = remainder1 - {pair[0] for pair in negations}
         remainder2 = remainder2 - {pair[1] for pair in negations}
 
-        # Step 3: remaining literals are regarded as having mutated
-        # If one clause contains more literals than the other, the
-        # difference is either additions or deletions
-        # if length remainder of clause1 > clause2
-        #   difference is deletions
-        # if length remainder of clause2 > clause1
-        #   difference is additions
-        mutation_pairs = set()
-        for _ in range(len(remainder2)):
-            mutation_pairs.add((remainder1.pop(), remainder2.pop()))
+        deletions = remainder1
+        additions = remainder2
 
-        deletions = remainder1 if remainder1 else set()
-        additions = remainder2 if remainder1 else set()
+        # # Step 3: remaining literals are regarded as having mutated
+        # # If one clause contains more literals than the other, the
+        # # difference is either additions or deletions
+        # # if length remainder of clause1 > clause2
+        # #   difference is deletions
+        # # if length remainder of clause2 > clause1
+        # #   difference is additions
+        # mutation_pairs = set()
+        # for _ in range(len(remainder2)):
+        #     mutation_pairs.add((remainder1.pop(), remainder2.pop()))
 
-        return overlap, negations, mutation_pairs, deletions, additions
+        # deletions = remainder1 if remainder1 else set()
+        # additions = remainder2 if remainder1 else set()
+
+        return overlap, negations, deletions, additions
     
 
 # Function that matches a literal to another literal in clause that shares it's value
