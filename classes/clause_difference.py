@@ -9,8 +9,8 @@ class ClauseDifference():
     def __init__(self, clause, target):
         self.clause = clause
         self.target = target
-        print("Creating clause difference for following clauses: ")
-        print(clause, target, "...")
+        # print("Creating clause difference for following clauses: ")
+        # print(clause, target, "...")
         (self.overlap,
         self.negations,
         self.deletions,
