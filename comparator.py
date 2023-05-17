@@ -75,7 +75,7 @@ def partial_overlap_compare(expression1, expression2):
     return possible_differences
 
 
-
+# TODO: greedy function
 def greedy_difference_expression(possible_differences):
     groups = dict()
     for diff in possible_differences:
@@ -83,16 +83,27 @@ def greedy_difference_expression(possible_differences):
         clause_difference = diff[1]
 
 
-# 
+# Function to find all unique subsets of a set of pairs of integers that do not
+# share overlap of their integers and are not eachothers subsets
 def find_all_difference_expressions(possible_differences):
-    for i, pair in enumerate(possible_differences):
-        print("ROOT: ", pair, "\n^^^^^^^^^^^^^^^^^^^^^^^^^^")
-        result = find_sub_expressions(possible_differences)
+    difference_expressions = []
 
-        print("\n\n Result for ", pair, " as head:")
-        [print(s) for s in result]
-        break
+    # Repeat finding algorithm with each node (clause difference, a pair of 
+    # integers representing the indexes of two clauses between expressions)
+    # as the head node.
+    for i in range(len(possible_differences)):
+        result = find_sub_expressions(possible_differences[i:])
 
+        for new_expression in result:
+            # If found expressions are subsets of already found expressions, 
+            # they can be discarded
+            if not any([set(new_expression).issubset(set(expression)) for expression in difference_expressions]):
+                difference_expressions.append(new_expression)
+
+    return difference_expressions
+  
+# Recursive expression finding function to find all expressions with a given
+# head appearing first in the list "possible_differences"
 def find_sub_expressions(possible_differences, unavailable=set()):
     head = possible_differences[0]
     # When the final node is reached there can be no further nodes reached, so
@@ -133,18 +144,10 @@ def find_sub_expressions(possible_differences, unavailable=set()):
 remainder1, remainder2, score = remove_overlap(expression1, expression2)
 print("\nStep 3, create clause differences between partially overlapping clauses...")
 possible_differences = partial_overlap_compare(remainder1, remainder2)
-print(possible_differences.keys())
-
-# for key in possible_differences.keys():
-#     print(possible_differences[key])
+print(list(possible_differences.keys()))
 
 
-# greedy_difference_expression(possible_differences)
 
-# l = permutations(pairs)
-# print("\nPermutations: ")
-# print([x for x in l])
-
-
-print("\nFind all possible difference expressions...")
-print(parent(list(possible_differences.keys())))
+print("\nStep 4, Find all possible difference expressions...")
+difference_expressions = find_all_difference_expressions(list(possible_differences.keys()))
+[print(x) for x in difference_expressions]
