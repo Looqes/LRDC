@@ -82,7 +82,7 @@ class Clause():
             # remainder2 = clause2 - overlap
             # Therefore...
             remainder2 = {literal for literal in clause2.literals 
-                          if all([literal == overlap_literal for overlap_literal in overlap])}
+                          if not all([literal == overlap_literal for overlap_literal in overlap])}
         
         # Step 2: Match literals to their negated/unnegated counterpart if it
         # exists in the other clause

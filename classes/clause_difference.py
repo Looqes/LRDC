@@ -17,10 +17,11 @@ class ClauseDifference():
         self.additions) = clause.difference(target)
 
         # Weight, currently hardcoded values
+        # Less similar clauses get a higher score
         self.score = \
-            len(self.overlap) \
-            - 0.5 * len(self.negations) \
-            - 3 * (len(self.deletions) + len(self.additions))
+              2 * len(self.overlap) \
+            + len(self.negations) \
+            + 0.25 * (len(self.deletions) + len(self.additions))
 
     
     def __repr__(self):

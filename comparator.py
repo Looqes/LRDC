@@ -102,6 +102,7 @@ def find_all_difference_expressions(possible_differences):
                 difference_expressions.append(new_expression)
 
     return difference_expressions
+
   
 # Recursive expression finding function to find all expressions with a given
 # head appearing first in the list "possible_differences"
@@ -143,12 +144,23 @@ def find_sub_expressions(possible_differences, unavailable=set()):
 
     
 remainder1, remainder2, score = remove_overlap(expression1, expression2)
-print("\nStep 3, create clause differences between partially overlapping clauses...")
-possible_differences = partial_overlap_compare(remainder1, remainder2)
-print(list(possible_differences.keys()))
+print("\nStep 3, create clause differences between partially overlapping" +
+      " clauses...")
+possible_clause_differences = partial_overlap_compare(remainder1, remainder2)
+print(list(possible_clause_differences.keys()))
+# print(possible_clause_differences)
 
 
 
 print("\nStep 4, Find all possible difference expressions...")
-difference_expressions = find_all_difference_expressions(list(possible_differences.keys()))
+difference_expressions = find_all_difference_expressions(
+                         list(possible_clause_differences.keys()))
 [print(x) for x in difference_expressions]
+
+
+print("\nStep 5, weigh difference expressions based on the weight of their" +
+      " contained clause differences")
+
+weighed_difference_expressions = []
+for difference_expression in difference_expressions:
+    print([possible_clause_differences[clause_difference].score for clause_difference in difference_expression])
