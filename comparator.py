@@ -97,7 +97,8 @@ def find_all_difference_expressions(possible_differences):
         for new_expression in result:
             # If found expressions are subsets of already found expressions, 
             # they can be discarded
-            if not any([set(new_expression).issubset(set(expression)) for expression in difference_expressions]):
+            if not any([set(new_expression).issubset(set(expression)) 
+                        for expression in difference_expressions]):
                 difference_expressions.append(new_expression)
 
     return difference_expressions
@@ -109,7 +110,7 @@ def find_sub_expressions(possible_differences, unavailable=set()):
     # When the final node is reached there can be no further nodes reached, so
     # throw the node immediately
     if len(possible_differences) == 1:
-        return [[head]]
+        return [{head}]
     tail = possible_differences[1:]
 
     # Clauses passed by the previous function calls, or the clauses of the
@@ -130,12 +131,12 @@ def find_sub_expressions(possible_differences, unavailable=set()):
             # If any are found, add each of them to result to be passed up
             if subsets:
                 for item in subsets:
-                    result.append([head] + item)
+                    result.append({head} | item)
 
     # If no matches are found, return head otherwise return all intermediate
     # difference expression results
     if not result:
-        return [[head]]
+        return [{head}]
     else:
         return result
             
