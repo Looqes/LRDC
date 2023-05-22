@@ -160,7 +160,15 @@ difference_expressions = find_all_difference_expressions(
 
 print("\nStep 5, weigh difference expressions based on the weight of their" +
       " contained clause differences")
-
 weighed_difference_expressions = []
 for difference_expression in difference_expressions:
-    print([possible_clause_differences[clause_difference].score for clause_difference in difference_expression])
+    weighed_difference_expressions.append(
+        (difference_expression,
+        sum([possible_clause_differences[clause_difference].score for clause_difference in difference_expression]))
+    )
+
+# Sorting to get best scoring expressions (most minimal = highest score)
+weighed_difference_expressions = sorted(weighed_difference_expressions, key=lambda pair: pair[1], reverse = True)
+
+[print(x) for x in weighed_difference_expressions]
+
