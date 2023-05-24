@@ -7,6 +7,7 @@ def find_all_difference_expressions(possible_differences):
     # integers representing the indexes of two clauses between expressions)
     # as the head node.
     for i in range(len(possible_differences)):
+        print(possible_differences[i])
         result = find_sub_expressions(possible_differences[i:])
 
         for new_expression in result:

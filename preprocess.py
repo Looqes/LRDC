@@ -1,3 +1,5 @@
+from classes.clause_difference import ClauseDifference
+
 # first identify & put aside the fully and non-overlapping the parts of the 
 # input expression
 # overlap = size of biggest expression / amount of literals in common clauses

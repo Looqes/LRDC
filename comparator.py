@@ -1,3 +1,5 @@
+import cnfgen
+
 from classes.clause import Clause
 from classes.expression import Expression
 from classes.clause_difference import ClauseDifference
@@ -7,12 +9,42 @@ import full_search
 
 import sys
 
+k1 = input("Amount of literals per clause in first expression: ")
+k1 = int(k1) if k1.isdigit() else {print("Not a number!"), exit(0)}
+n1 = input("Amount of variables to choose from in first expression: ")
+n1 = int(n1) if n1.isdigit() else {print("Not a number!"), exit(0)}
+m1 = input("Amount of clauses to generate for first expression: ")
+m1 = int(m1) if m1.isdigit() else {print("Not a number!"), exit(0)}
+
+k2 = input("Amount of literals per clause in first expression: ")
+k2 = int(k2) if k2.isdigit() else {print("Not a number!"), exit(0)}
+n2 = input("Amount of variables to choose from in first expression: ")
+n2 = int(n2) if n2.isdigit() else {print("Not a number!"), exit(0)}
+m2 = input("Amount of clauses to generate for first expression: ")
+m2 = int(m2) if m2.isdigit() else {print("Not a number!"), exit(0)}
+
+
 # Handle command line input
 usage = "python3 comparator.py [greedy/full]"
 if len(sys.argv) < 2 or \
    sys.argv[1].lower() not in {"greedy", "full"}:
     print("Usage: ", usage)
     exit(1)
+
+
+
+# k = amount of literals per clause, 
+# n = amount of variables, 
+# m = amount of clauses to generate
+first_expr = cnfgen.RandomKCNF(k1, n1, m1).to_dimacs()
+with open("cnffiles/test", "w") as text_file:
+    text_file.write(first_expr)
+
+second_expr = cnfgen.RandomKCNF(k2, n2, m2).to_dimacs()
+with open("cnffiles/test2", "w") as text_file:
+    text_file.write(second_expr)
+
+
 
 
 # name = sys.argv[1]
@@ -97,5 +129,6 @@ elif selection == "full":
 
 
 # TODO: Result feedback (show what changed and how similar the rulesets are)
+# TODO: Handle clauses that did not get matched (these should be treated as additions/deletions)
 if result:
     pass
