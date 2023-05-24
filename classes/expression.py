@@ -24,13 +24,13 @@ class Expression():
         file = open("cnffiles/" + filename).read().split("\n")
 
         for line in file:
+            if line:
             # Exclude lines that are comments or state the entire expression
             # definition
-            # print(line)
-            if not (line[0] == "c" or line[0] == "p"):
-                terms = [term for term in line.split(" ")[:-1] if term]
-                # print(terms)
-                clauses.append(Clause(terms))
+                if not (line[0] == "c" or line[0] == "p"):
+                    terms = [term for term in line.split(" ")[:-1] if term]
+                    # print(terms)
+                    clauses.append(Clause(terms))
 
         self.clauses = clauses
         self.amount_of_literals = sum([clause.length for clause in self.clauses])
