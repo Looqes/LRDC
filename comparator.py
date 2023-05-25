@@ -1,70 +1,51 @@
-import cnfgen
 
 from classes.clause import Clause
 from classes.expression import Expression
 from classes.clause_difference import ClauseDifference
+import random_clause_generator as rcnf
 import preprocess
 import greedy
 import full_search
-
+from classes.expression import Expression
 import sys
-
-k1 = input("Amount of literals per clause in first expression: ")
-k1 = int(k1) if k1.isdigit() else {print("Not a number!"), exit(0)}
-n1 = input("Amount of variables to choose from in first expression: ")
-n1 = int(n1) if n1.isdigit() else {print("Not a number!"), exit(0)}
-m1 = input("Amount of clauses to generate for first expression: ")
-m1 = int(m1) if m1.isdigit() else {print("Not a number!"), exit(0)}
-
-k2 = input("Amount of literals per clause in first expression: ")
-k2 = int(k2) if k2.isdigit() else {print("Not a number!"), exit(0)}
-n2 = input("Amount of variables to choose from in first expression: ")
-n2 = int(n2) if n2.isdigit() else {print("Not a number!"), exit(0)}
-m2 = input("Amount of clauses to generate for first expression: ")
-m2 = int(m2) if m2.isdigit() else {print("Not a number!"), exit(0)}
 
 
 # Handle command line input
-usage = "python3 comparator.py [greedy/full]"
-if len(sys.argv) < 2 or \
-   sys.argv[1].lower() not in {"greedy", "full"}:
+usage = "python3 comparator.py [random/{filenames}] [greedy/full]"
+
+if (len(sys.argv) < 3 or
+    # Enforce algorithm choice
+    sys.argv[-1].lower() not in {"greedy", "full"} or \
+    # Either random generation must be specified or two filenames must be given
+    (sys.argv[1] != "random" and len(sys.argv) != 4)):
+    print(len(sys.argv))
     print("Usage: ", usage)
     exit(1)
 
 
-
-# k = amount of literals per clause, 
-# n = amount of variables, 
-# m = amount of clauses to generate
-first_expr = cnfgen.RandomKCNF(k1, n1, m1).to_dimacs()
-with open("cnffiles/test", "w") as text_file:
-    text_file.write(first_expr)
-
-second_expr = cnfgen.RandomKCNF(k2, n2, m2).to_dimacs()
-with open("cnffiles/test2", "w") as text_file:
-    text_file.write(second_expr)
+algorithm_choice = sys.argv[-1]
 
 
+# File input
+if len(sys.argv) == 4:
+    first_file, second_file = sys.argv[1:3]
+    print(first_file, second_file)
+    try:
+        expression1 = Expression().read_from_file(first_file)
+        expression2 = Expression().read_from_file(second_file)
+    except OSError:
+        print("Files could not be opened correctly...")
+        print("Are you sure you gave the correct filenames?")
+        exit(1)
+# Random cnf clause generation
+elif sys.argv[1] == "random":
+    rcnf.generate_random_clauses()
+    expression1 = Expression().read_from_file("first_expression")
+    expression2 = Expression().read_from_file("second_expression")
+else:
+    print("Invalid commands given")
+    exit(1)
 
-
-# name = sys.argv[1]
-# name1 = "6clauses7variables"
-# name1 = "6clauses7variablesv2"
-# name1 = "largecnf"
-# name2 = "largecnf"
-# name2 = "6clauses7variables_slightchange"
-# name2 = "6clauses7variables_slightchangev2"
-
-# name1 = "clausematchtest1"
-# name2 = "clausematchtest2"
-
-
-name1 = "test"
-name2 = "test2"
-
-
-expression1 = Expression().read_from_file(name1)
-expression2 = Expression().read_from_file(name2)
 
 print(expression1)
 print(expression2)
@@ -87,21 +68,18 @@ possible_clause_differences = preprocess.partial_overlap_compare(remainder1, rem
 print(list(possible_clause_differences.keys()))
 
 
-selection = sys.argv[1]
-print(selection)
-
-
 result = []
 
+
 # Greedy
-if selection == "greedy":
+if algorithm_choice == "greedy":
     print("\nStep4, Greedy")
     result = greedy.greedy_difference_expression(possible_clause_differences)
     print("Result: ")
     print(result)
     print("Score = ", get_diff_expr_score(possible_clause_differences, result))
 # Full search
-elif selection == "full":
+elif algorithm_choice == "full":
     print("\nStep 4, Full search, Find all possible difference expressions...")
     difference_expressions = full_search.find_all_difference_expressions(
                             list(possible_clause_differences.keys()))
