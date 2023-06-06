@@ -75,14 +75,19 @@ class Clause():
         remainder1 = clause1.literals
         remainder2 = clause2.literals
 
+        # print("Remainder of clause 2 at start: ", remainder2)
+
         overlap = clause1 & clause2
+        # print("overlap: ", overlap)
         if overlap:
             remainder1 = clause1.literals - overlap
             # This doesnt work since the overlap set contains only objects obtained from clause 1:
             # remainder2 = clause2 - overlap
             # Therefore...
             remainder2 = {literal for literal in clause2.literals 
-                          if not all([literal == overlap_literal for overlap_literal in overlap])}
+                          if all([literal != overlap_literal for overlap_literal in overlap])}
+            # print('Remainder after trying to remove overlap: ', remainder2)
+            # print("--")
         
         # Step 2: Match literals to their negated/unnegated counterpart if it
         # exists in the other clause

@@ -17,7 +17,7 @@ class ClauseDifference():
         self.additions) = clause.difference(target)
 
         # Weight, currently hardcoded values
-        # Less similar clauses get a higher score
+        # More similar clauses get a higher score
         self.score = \
               2 * len(self.overlap) \
             + len(self.negations) \

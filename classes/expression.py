@@ -57,7 +57,9 @@ class Expression():
         left_outer = [x for x in self.clauses if x not in other.clauses]
         right_outer = [x for x in other.clauses if x not in self.clauses]
 
-        return Expression(left_outer), Expression(right_outer)
+        return Expression(left_outer), Expression(right_outer), \
+               Expression([clause for clause in self.clauses 
+                           if clause not in left_outer and clause not in right_outer])
     
 
     # Returns true if given expression contains given clause

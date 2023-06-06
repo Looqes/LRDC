@@ -7,14 +7,14 @@ def remove_overlap(expression1, expression2):
     print("********************")
     print("Step 1, remove full overlapping clauses...")
 
-    remainder1, remainder2 = expression1 ^ expression2
+    remainder1, remainder2, overlap = expression1 ^ expression2
     print(remainder1)
     print(remainder2)
     print()
 
     # TODO
     # overlap = (size_of_biggest_expression - remainder1.amount_of_literals) / size_of_biggest_expression
-    overlap = 0
+    # overlap = 0
 
     print("Step 2, remove non-overlapping clauses...")
     remainder1 = remainder1.partial_overlap(remainder2)
