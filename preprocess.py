@@ -17,12 +17,17 @@ def remove_overlap(expression1, expression2):
     # overlap = 0
 
     print("Step 2, remove non-overlapping clauses...")
-    remainder1 = remainder1.partial_overlap(remainder2)
-    remainder2 = remainder2.partial_overlap(remainder1)
-    print(remainder1)
-    print(remainder2)
+    result1 = remainder1.partial_overlap(remainder2)
+    result2 = remainder2.partial_overlap(remainder1)
+    print(result1)
+    print(result2)
 
-    return remainder1, remainder2, overlap
+    non_overlap = (remainder1 - result1,
+                   remainder2 - result2)
+
+
+
+    return result1, result2, overlap, non_overlap
 
 
 # Function that compares partially overlapping clauses and creates

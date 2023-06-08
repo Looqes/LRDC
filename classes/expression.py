@@ -36,6 +36,11 @@ class Expression():
         self.amount_of_literals = sum([clause.length for clause in self.clauses])
 
         return self
+    
+
+    # Subtraction operator for expressions
+    def __sub__(self, other):
+        return Expression([clause for clause in self.clauses if clause not in other.clauses])
 
     
     # Make an expression printable

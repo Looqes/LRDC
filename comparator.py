@@ -2,14 +2,14 @@
 from classes.clause import Clause
 from classes.expression import Expression
 from classes.clause_difference import ClauseDifference
-import random_clause_generator as rcnf
 import preprocess
 import greedy2
 import full_search
-from classes.expression import Expression
+import docx_output
+
+import random_clause_generator as rcnf
 import sys
 
-import rtfunicode
 
 
 
@@ -63,9 +63,10 @@ def get_diff_expr_score(possible_clause_differences, difference_expression):
 
             
 # Step 1 & 2 - remove full & non-overlap (strip)
-remainder1, remainder2, overlap = preprocess.remove_overlap(expression1, expression2)
+remainder1, remainder2, overlap, non_overlap = preprocess.remove_overlap(expression1, expression2)
 
 print('Overlap = ', overlap)
+print('Non-overlap = ', non_overlap)
 
 print("\nStep 3, create clause differences between partially overlapping" +
       " clauses...")
@@ -113,58 +114,4 @@ elif algorithm_choice == "full":
 
 # TODO: Result feedback (show what changed and how similar the rulesets are)
 # TODO: Handle clauses that did not get matched (these should be treated as additions/deletions)
-# import docx
-# from docx.enum.text import WD_COLOR_INDEX
-
-# colors = [WD_COLOR_INDEX.BLUE, WD_COLOR_INDEX.BRIGHT_GREEN, WD_COLOR_INDEX.DARK_RED, WD_COLOR_INDEX.VIOLET, WD_COLOR_INDEX.TURQUOISE]
-
-# def getcolors(colors):
-#     return (color for color in colors)
-
-# # Create an instance of a word document
-# doc = docx.Document()
-  
-# # Add a Title to the document 
-# doc.add_heading('Expression difference', 2)
-# doc.add_paragraph().add_run(str(expression1))
-# doc.add_paragraph().add_run(str(expression2))
-# # original_clauses_desc.add_run(str(expression1))
-# # original_clauses_desc.add_run(str(expression2))
-
-# doc.add_paragraph()
-# doc.add_paragraph().add_run("Overlap between rulesets: ")
-# doc.add_paragraph().add_run(str(overlap))
-# doc.add_paragraph().add_run(str(overlap))
-
-# highlight_colors = getcolors(colors)
-
-
-# doc.add_paragraph()
-# doc.add_paragraph().add_run("Changed rules: ")
-# for matching in result:
-#     print(possible_clause_differences[matching])
-#     clause_difference = possible_clause_differences[matching]
-#     negations = possible_clause_differences[matching].negations
-
-#     # first_rule = str(possible_clause_differences[matching].clause)
-#     # second_rule = str(possible_clause_differences[matching].target)
-#     first_clause = doc.add_paragraph()
-#     first_clause.add_run("(")
-
-    
-#     for overlapping_literal in clause_difference.overlap:
-#         first_clause.add_run(str(overlapping_literal))
-#         first_clause.add_run(" ∨ ")
-
-#     for negation in clause_difference.negations:
-#         first_clause.add_run(str(negation[0]))
-#         first_clause.add_run(" ∨ ")
-
-# # Creating paragraph with some content and Highlighting it.
-# # highlight_para = doc.add_paragraph(
-# #        ).add_run(
-# #            str(expression1)
-# #                  ).font.highlight_color = next(highlight_colors)
-  
-# # Now save the document to a location 
-# doc.save('gfg.docx')
+docx_output.write_output_docx(expression1, expression2, overlap, non_overlap, result, possible_clause_differences)
