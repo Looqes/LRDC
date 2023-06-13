@@ -12,8 +12,7 @@ class Expression():
     def __init__(self, clauses=[]):
         # klaus
         self.clauses = clauses
-        self.amount_of_literals = sum([clause.length for clause in self.clauses])
-
+        self.amount_of_literals = 0
 
     # Read a CNF expression from an external file, assuming the expression in
     # the file is written in the DIMACS CNF file format
@@ -33,9 +32,16 @@ class Expression():
                     clauses.append(Clause(terms))
 
         self.clauses = clauses
-        self.amount_of_literals = sum([clause.length for clause in self.clauses])
+        # self.amount_of_literals = sum([clause.length for clause in self.clauses])
 
         return self
+    
+    def read_from_kcnf(self, kcnf):
+        self.clauses = list([Clause([str(literal) for literal in term]) for term in kcnf.clauses()])
+        # self.amount_of_literals = sum([clause.length for clause in self.clauses])
+
+        return self
+
     
 
     # Subtraction operator for expressions
