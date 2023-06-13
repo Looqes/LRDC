@@ -4,23 +4,23 @@ from classes.clause_difference import ClauseDifference
 # input expression
 # overlap = size of biggest expression / amount of literals in common clauses
 def remove_overlap(expression1, expression2):
-    print("********************")
-    print("Step 1, remove full overlapping clauses...")
+    # print("********************")
+    # print("Step 1, remove full overlapping clauses...")
 
     remainder1, remainder2, overlap = expression1 ^ expression2
-    print(remainder1)
-    print(remainder2)
-    print()
+    # print(remainder1)
+    # print(remainder2)
+    # print()
 
     # TODO
     # overlap = (size_of_biggest_expression - remainder1.amount_of_literals) / size_of_biggest_expression
     # overlap = 0
 
-    print("Step 2, remove non-overlapping clauses...")
+    # print("Step 2, remove non-overlapping clauses...")
     result1 = remainder1.partial_overlap(remainder2)
     result2 = remainder2.partial_overlap(remainder1)
-    print(result1)
-    print(result2)
+    # print(result1)
+    # print(result2)
 
     non_overlap = (remainder1 - result1,
                    remainder2 - result2)
