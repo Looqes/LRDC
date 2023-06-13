@@ -5,6 +5,7 @@ def greedy_difference_expression(possible_differences):
     weight_sorted_list = sorted([(dictkey, possible_differences[dictkey]) 
                                  for dictkey in possible_differences.keys()], 
                                  key = lambda x : x[1].score, reverse = True)
+    # print("WEIGHT SORTED LIST: ")
     # print(weight_sorted_list[0:5])
     # print("############")
   
@@ -23,4 +24,6 @@ def greedy_difference_expression(possible_differences):
             used_in_first.add(indexes[0])
             used_in_second.add(indexes[1])
 
-    return difference_expression
+    if difference_expression:
+        return difference_expression
+    return None
