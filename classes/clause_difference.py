@@ -19,9 +19,9 @@ class ClauseDifference():
         # Weight, currently hardcoded values
         # More similar clauses get a higher score
         self.score = \
-              2 * len(self.overlap) \
-            + len(self.negations) \
-            + 0.25 * (len(self.deletions) + len(self.additions))
+            (len(self.overlap) \
+            + len(self.negations) / 2) \
+            / max(self.clause.length, self.target.length)
 
     
     def __repr__(self):
@@ -31,7 +31,7 @@ class ClauseDifference():
             + "    Negations: " + str(self.negations) + "\n" \
             + "    Deletions: " + str(self.deletions) + "\n" \
             + "    Additions: " + str(self.additions) + "\n" \
-            + "------------------- WEIGHT : " + str(self.score) + "\n"
+            + "------------------- SIMILARITY : " + str(self.score) + "\n"
                 
 
 
