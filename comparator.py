@@ -17,7 +17,7 @@ def get_line_input():
     use_dimacs = False
 
     # Handle command line input
-    usage = "python3 comparator.py [input/random/{filenames}] [greedy/full]"
+    usage = "python3 comparator.py [random/filename1 filename2] [greedy/full]"
 
     # Enforce algorithm choice
     if sys.argv[-1].lower() in {"greedy", "full"}:
