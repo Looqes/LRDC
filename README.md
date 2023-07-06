@@ -12,7 +12,7 @@ Will print made or given CNF sets, followed by a score of similarity between the
 result of the program is the object created in __main__ of ```comparator.py```:
 ```diff_exp```
 
-It is an object containing both expressions, and characteristics of their differences as made by the algorithms present in this project
+It is an object containing both rulesets that are compared (expressions), and characteristics of their differences as made by the algorithms present in this project
 Also contains said score
 
 Important note, the negation of a Literal is counted as a half overlap, meaning it contributes to similarity of clauses, but only half as much as actual overlap of Literals
