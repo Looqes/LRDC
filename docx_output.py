@@ -98,17 +98,21 @@ def write_output_docx(expression1, expression2, clause_overlap, clause_non_overl
         visualization.add_run().add_break()
 
     deleted_clauses = doc.add_paragraph()
-    deleted_clauses.add_run("Rules that no longer appear in the second ruleset").add_break()
+    deleted_clauses.add_run("Rules that no longer appear in the first ruleset").add_break()
+
+    print(clause_non_overlap[expression1])
+
+    # exit()
     
-    if clause_non_overlap[0].clauses:
-        deleted_clauses.add_run(str(clause_non_overlap[0])).add_break()
+    if clause_non_overlap[expression1]:
+        deleted_clauses.add_run(str(clause_non_overlap[expression1])).add_break()
     else:
         deleted_clauses.add_run("    None...").add_break()
 
     new_clauses = doc.add_paragraph()
     new_clauses.add_run("New Rules in the second ruleset").add_break()
-    if clause_non_overlap[1].clauses:
-        new_clauses.add_run(str(clause_non_overlap[1]))
+    if clause_non_overlap[expression2]:
+        new_clauses.add_run(str(clause_non_overlap[expression2]))
     else:
         new_clauses.add_run("    No new rules...")
 
